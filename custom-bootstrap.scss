@@ -1,0 +1,55 @@
+// lo scopo di oggi è crearci una versione "personalizzata" di bootstrap,
+// leggendo i partials originali e applicandoci sopra le modifiche volute
+
+// creando come risultato un "custom-bootstrap.css" che importerò nei miei documenti
+// HTML
+
+// cominciamo provando a sovrascrivere i colori originali
+// sono definiti in "_variables.scss"
+
+// per importare con successo variables, abbiamo PRIMA bisogno di importare functions
+@import 'scss/functions';
+@import 'scss/variables';
+// ora abbiamo accesso a theme-colors, spacers etc.
+
+$new-danger: #ff0077; // il mio nuovo primary
+$new-info: #00ffea;
+$light: #f3eeff;
+$epicode-1: #5726c3;
+$epicode-2: #8625a5;
+$epicode-3: #8625a5;
+
+$new-theme-colors: (
+  'danger': $new-danger,
+  'info': $new-info,
+  'light': $light,
+  'epicode1': $epicode-1,
+  'epicode2': $epicode-2,
+  'epicode3': $epicode-3,
+);
+
+// ho creato la mia mappa colori custom. Ora il prossimo passo è
+// andare a FONDERLA con la mappa dei colori originali di bootstrap!
+$theme-colors: map-merge($theme-colors, $new-theme-colors);
+
+// sono riuscito con successo a creare la MIA mappa colori di bootstrap,
+// partendo dall'originale e sovrascrivendo/aggiungendo le mie modifiche!
+
+// ...ma ora dobbiamo usarla per creare TUTTO: i colori dei testi, dei background,
+// dei bottoni, degli alert, dei toast etc.
+
+// cambiamo gli spacers di default
+$new-spacers: (
+  6: $spacer * 6,
+);
+
+$spacers: map-merge($spacers, $new-spacers);
+
+@import 'scss/bootstrap.scss';
+
+// ...ma andando a re-importare nuovamente TUTTO, non sono andato a ri-sovrascrivere
+// la mia bella mappa theme-colors con nuovamente i colori originali???
+// ho perso tutte le mie modifiche re-importando i partials di bootstrap??
+// no... perchè tutte le mappe originali hanno un flag "!default"
+// il flag "!default" significa: io creo questa variabile A MENO CHE non sia
+// già stata definita precedentemente.
